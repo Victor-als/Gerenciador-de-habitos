@@ -1,11 +1,11 @@
 
 export default function NewHabit () {
-  async function newHabit(formData: FormData) {
-    "use server";
+  // async function newHabit(formData: FormData) {
+  //   "use server";
     
-    const habit = formData.get("habit");
-    console.log(habit)
-  }
+  //   const habit = formData.get("habit");
+  //   console.log(habit)
+  // }
   return (
     <main className="container relative gap-8 flex flex-col px-12 pt-16"> 
       <h1 className="text-4xl text-center font-display text-white">

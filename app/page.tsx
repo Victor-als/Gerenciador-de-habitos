@@ -35,7 +35,7 @@ export default function Home() {
       )}
 
       {habits !== null && Object.entries(habits).map(
-       ([ habit, habitStreak ]) => (
+       ([ habit ]) => (
           <div key={habit}>
             <div className="flex justify-between items-center">
               <span className="text-xl font-light text-white font-sans">
