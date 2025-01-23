@@ -3,11 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 
+
+ type Habits = {
+  [habit: string] : Record<string, boolean> 
+} | null;
 export default function Home() {
-  const habits = {
+  const habits: Habits = {
     'Beber Agua': {
      '2024-20-01': true,
-     '2024-19-01': false,
+     '2024-19-01': false, 
      '2024-18-01': true,
     },
     'Ler': {
@@ -25,6 +29,16 @@ export default function Home() {
   .slice(todayWeekDay + 1)
   .concat(weekDays.slice(0, todayWeekDay + 1));
 
+  const lastSevenDays = weekDays.map((_, index) => {
+    const date = new Date();
+
+    date.setDate(date.getDate() - index); 
+
+    return date.toISOString().slice(0, 10);
+  }).reverse();
+
+ 
+
   return (
     <main className="container relative flex flex-col gap-8 px-4 pt-16">
       {habits === null || Object.keys(habits).length === 0 && (
@@ -35,7 +49,7 @@ export default function Home() {
       )}
 
       {habits !== null && Object.entries(habits).map(
-       ([ habit ]) => (
+       ([ habit, habitStreak]) => (
           <div key={habit}>
             <div className="flex justify-between items-center">
               <span className="text-xl font-light text-white font-sans">
@@ -50,18 +64,19 @@ export default function Home() {
                 />
               </button>
             </div>
-             <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2 mt-3">
-               {sorteWeekDay.map((day) => (
-                <div key={day} className="flex flex-col last:font-bold">
-                  <span className="text-white font-sans text-xs flex justify-center">
-                    {day}
-                    </span>
-                    {/* day state */}
-                    <DayState day={undefined}/>
-                </div>
-               ))}
-             </section>
-             {/* - {JSON.stringify(habitStreak)} */}
+            <Link href={`HabitDetails/${habit}`}>
+              <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2 mt-3">
+                {sorteWeekDay.map((day) => (
+                  <div key={day} className="flex flex-col last:font-bold">
+                    <span className="text-white font-sans text-xs flex justify-center">
+                      {day}
+                      </span>
+                      {/* day state */}
+                      <DayState day={habitStreak[lastSevenDays[0]]}/>
+                  </div>
+                ))}
+              </section>
+            </Link>
           </div>
        )
       )}
@@ -76,3 +91,5 @@ export default function Home() {
     </main>
   );
 }
+
+             

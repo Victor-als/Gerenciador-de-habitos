@@ -1,11 +1,16 @@
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export default function NewHabit () {
-  // async function newHabit(formData: FormData) {
-  //   "use server";
+   async function newHabit(formData: FormData) {
+     "use server";
     
-  //   const habit = formData.get("habit");
-  //   console.log(habit)
-  // }
+     const habit = formData.get("habit");
+     console.log(habit);
+
+     revalidatePath("/");
+     redirect("/");
+   }
   return (
     <main className="container relative gap-8 flex flex-col px-12 pt-16"> 
       <h1 className="text-4xl text-center font-display text-white">
@@ -14,7 +19,7 @@ export default function NewHabit () {
       
        <form 
         className="flex flex-col gap-4 mt-4"
-        action="">
+        action={newHabit}>
         <input 
          type="text" 
          name="habit" 
