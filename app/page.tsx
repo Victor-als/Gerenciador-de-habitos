@@ -1,25 +1,28 @@
 import DayState from "@/components/DayState";
+import { Redis } from "@upstash/redis";
 import Image from "next/image";
 import Link from "next/link";
 
+const redis = Redis.fromEnv();
 
 
- type Habits = {
-  [habit: string] : Record<string, boolean> 
-} | null;
-export default function Home() {
-  const habits: Habits = {
-    'Beber Agua': {
-     '2024-20-01': true,
-     '2024-19-01': false, 
-     '2024-18-01': true,
-    },
-    'Ler': {
-     '2024-20-01': true,
-     '2024-19-01': false,
-     '2024-18-01': true,
-    },
-  };
+  type Habits = {
+   [habit: string] : Record<string, boolean> 
+ } | null;
+export default async function Home() {
+  let habits: Habits = null;
+
+  try {
+    habits = await redis.hgetall("habits");
+
+    // Valida se o retorno está no formato esperado
+    if (habits && typeof habits !== "object") {
+      throw new Error("Formato inválido de dados no Redis");
+    }
+  } catch (error) {
+    console.error("Erro ao buscar hábitos do Redis:", error);
+  }
+
 
   const today = new Date();
   const todayWeekDay = today.getDay();
@@ -66,13 +69,13 @@ export default function Home() {
             </div>
             <Link href={`HabitDetails/${habit}`}>
               <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2 mt-3">
-                {sorteWeekDay.map((day) => (
+                {sorteWeekDay.map((day, index) => (
                   <div key={day} className="flex flex-col last:font-bold">
                     <span className="text-white font-sans text-xs flex justify-center">
                       {day}
                       </span>
                       {/* day state */}
-                      <DayState day={habitStreak[lastSevenDays[0]]}/>
+                      <DayState day={habitStreak[lastSevenDays[index]]}/>
                   </div>
                 ))}
               </section>
