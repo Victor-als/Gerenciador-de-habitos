@@ -1,7 +1,7 @@
 import DayState from "@/components/DayState";
 import { Redis } from "@upstash/redis";
-import Image from "next/image";
 import Link from "next/link";
+import DeleteButton from "@/components/DeleteButton";
 
 const redis = Redis.fromEnv();
 
@@ -58,14 +58,7 @@ export default async function Home() {
               <span className="text-xl font-light text-white font-sans">
                 {habit}
               </span>
-              <button>
-                <Image 
-                 src="/trash.svg" 
-                 alt="Botão deletar meta"
-                 width={20}
-                 height={20}
-                />
-              </button>
+               <DeleteButton habit={""} />
             </div>
             <Link href={`HabitDetails/${habit}`}>
               <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2 mt-3">

@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import { Redis } from '@upstash/redis';
 
  const redis = new Redis({
-   url: process.env.KV_KV_REST_API_URL,
-   token: process.env.KV_KV_REST_API_TOKEN,
+  url: process.env.KV_KV_REST_API_URL,
+  token: process.env.KV_KV_REST_API_TOKEN,
 })
 
 export default function NewHabit () {
@@ -12,7 +12,7 @@ export default function NewHabit () {
      "use server";
     
      const habit = formData.get("habit");
-     await redis.hset('habits', {[habit as string]: {}});
+     await redis.set('habits', {[habit as string]: {}});
 
      revalidatePath("/");
      redirect("/");
