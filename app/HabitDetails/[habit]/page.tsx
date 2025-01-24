@@ -20,7 +20,7 @@ export default function HabitDetails ({ params: { habit }}: { params: { habit: s
           Voltar
       </Link>
 
-      <Calendar />
+      <Calendar habit={decodeHabit}/>
     </main>
   )
 }
