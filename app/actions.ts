@@ -1,9 +1,8 @@
 "use server";
 
-import { Redis } from "@upstash/redis";
+import { redis } from "./redis"
 import { revalidatePath } from "next/cache";
 
-const redis = Redis.fromEnv();
 export async function deleteHabit(habit: string) {
   await redis.hdel("habits", habit);
 

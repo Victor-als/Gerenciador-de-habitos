@@ -1,9 +1,8 @@
 import DayState from "@/components/DayState";
-import { Redis } from "@upstash/redis";
 import Link from "next/link";
 import DeleteButton from "@/components/DeleteButton";
+import { redis } from "./redis"
 
-const redis = Redis.fromEnv();
 
   type Habits = {
    [habit: string] : Record<string, boolean> 

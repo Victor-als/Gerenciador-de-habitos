@@ -1,10 +1,8 @@
 import ArrowIcon from "@/components/ArrowIcon";
 import Calendar from "@/components/Calendar";
-import { Redis } from "@upstash/redis";
 import Link from "next/link";
-
+import { redis } from "../../redis"
 // Inicializa o Redis
-const redis = Redis.fromEnv();
 
 // Tipagem para os parâmetros da rota
 type Params = Promise<{ habit: string }>;
